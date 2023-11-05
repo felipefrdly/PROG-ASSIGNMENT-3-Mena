@@ -64,7 +64,53 @@ class Application:
             else:
                 print("Please try again.")
                 continue
+
+class Account:
+    def __init__(self) -> None:
+        #TODO add accountNumber, accountHolderName, rateOfInterest, and currentBalance as variables
+        pass
         
+    def getAccountNumber(self):
+        #TODO create accessor method for accountNumber
+        pass
+
+    def getAccountHolderName(self):
+        #TODO create accessor method for accountHolderName
+        pass 
+
+    def getRateOfInterest(self):
+        #TODO create accessor method for rateOfInterest
+        pass
+
+    def getCurrentBalence(self):
+        #TODO create accessor method for accountNumber
+        pass
+
+    def setAccountHolderName(self):
+        #TODO create mutator method for accountHolderName
+        pass
+
+    def setRateOfInterest(self):
+        #TODO create mutator method for rateOfInterest
+        pass
+
+    def Deposit(self):
+        #TODO subtract money inputted from user from currentBalance
+        pass
+
+    def Withdraw(self):
+        #TODO add money inputted from user to the currentBalance
+        pass
+
+class Bank:
+    _bankName = "Bank of Canada"
+
+    def openAccount(self):
+        pass
+
+    def searchAccount(self):
+        #TODO Make it so that the account number is a parameter have the method find and return an account with the same account number
+        pass
 
 t = Application()
 
