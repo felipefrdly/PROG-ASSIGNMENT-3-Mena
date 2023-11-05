@@ -6,13 +6,67 @@ Description:
 
 class Application:
     def run(self):
-        #TODO When this method is called run the other class methods
-        pass
+        self.showMainMenu()#creates an instance of main menu when called
 
     def showMainMenu(self):
-        #TODO When this method is called that displays the options: Select Account, Open Account, and Exit
-        pass
+        print("___Welcome to Bank of Canada___\n\n<1> Select Account\n<2> Open Account\n<3> Exit\n") #displays options
+
+        #This loop keeps the user inside of it until they input one of the available options 
+        while True:
+            choice = input("Please select one of the available options: ") #takes user input
+
+            #asks for account number and calls showAccountMenu method if 1 is chosen
+            if choice == "1":
+                print("Option 1 Selected")
+                accountSelect = input("Enter account number: ")
+                self.showAccountMenu()
+                break
+            
+            elif choice == "2":
+                print("Option 2 Selected")
+                break
+
+            #exits the program if 3 is chosen            
+            elif choice == "3":
+                print("Exiting Bank of Canada, Have a good day!")
+                exit()
+                break
+
+            else:
+                print("Please try again.")
+                continue
 
     def showAccountMenu(self):
-        #TODO When this method is called display the options: Check Balence, Deposit, Withdraw, and Exit Account
-        pass
+        print("\n___Account Menu___\n\n<1> Check Balance\n<2> Deposit\n<3> Withdraw\n<4> Exit Account\n")
+
+        #This loop keeps the user inside of it until they input one of the available options 
+        while True:
+            choice = input("Please select one of the available options: ")#takes user input
+
+            #these 5 statements check if one of the options are selected, execute diffrent methods based on option
+            if choice == "1":
+                print("Option 1 Selected")
+                break
+            
+            elif choice == "2":
+                print("Option 2 Selected")
+                break
+            
+            elif choice == "3":
+                print("Option 3 Selected")
+                break
+
+            elif choice == "4":
+                print("Exiting Account, Please come again!")
+                exit()
+                break
+
+            else:
+                print("Please try again.")
+                continue
+        
+
+t = Application()
+
+t.run()
+#t.showMainMenu()
