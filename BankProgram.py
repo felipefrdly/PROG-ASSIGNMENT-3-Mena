@@ -76,42 +76,50 @@ class Account:
         self._currentBal = currentBal
         listOfAcc.append(self)
 
-        
+    #Accessor method for account number
     def getAccountNumber(self):
-        #TODO create accessor method for accountNumber
-        pass
+        return self._accountNumber
 
+    #Accessor method for account holder name
     def getAccountHolderName(self):
-        #TODO create accessor method for accountHolderName
-        pass 
+        return self._accountHolderName
 
+    #Accessor method for rate of interest
     def getRateOfInterest(self):
-        #TODO create accessor method for rateOfInterest
-        pass
+        return self._rateOfInterest
 
+    #Accessor method for current balence
     def getCurrentBalence(self):
-        #TODO create accessor method for accountNumber
-        pass
+        return self._currentBal
+    
+    #Mutator method for accountHolderName
+    def setAccountHolderName(self, newAccName):
+        self._accountHolderName = newAccName
 
-    def setAccountHolderName(self):
-        #TODO create mutator method for accountHolderName
-        pass
+    #Mutator method for rateOfInterest
+    def setRateOfInterest(self, newROI):
+        self._rateOfInterest = newROI
 
-    def setRateOfInterest(self):
-        #TODO create mutator method for rateOfInterest
-        pass
+    def Deposit(self, amount):
+        if amount <= 0:
+            print("Value depositied must be greater then zero, transaction failed.")
+            return False
+        self._currentBal += amount
+        print("Transaction successful.")
+        return True
 
-    def Deposit(self):
-        #TODO subtract money inputted from user from currentBalance
-        pass
+    def Withdraw(self, amount):
+        if amount > self._currentBal or amount <= 0 :
+            print("Amount cannot be more then current balence or negative, transaction failed.")
+            return False
+        self._currentBal -= amount
+        print("Transaction successful.")
+        return True
 
-    def Withdraw(self):
-        #TODO add money inputted from user to the currentBalance
-        pass
 
 class Bank:
     _bankName = "Bank of Canada"
-    
+
     #this method takes each field variable needed to make a Account object as a parameter and creates a instance of the Account object
     def openAccount(self, accountNum, accName, ROI, accBal):
         newAcc = Account(accountNum, accName, ROI, accBal)
@@ -121,7 +129,9 @@ class Bank:
     def searchAccount(self, accountNumber):
         for obj in listOfAcc:
             if accountNumber == obj._accountNumber:
+                print("Account successfully found.")
                 return True
+        print("Failed to find account.")
         return False
 
 
@@ -130,13 +140,14 @@ b = Bank()
 
 #t.run()
 g1 = Account(1111, "Felipe", 0.5, 500)
-g2 = Account(2222, "Joe", 0.5, 200)
-b.openAccount(3333, "Dale", 0.5, 100)
-b.openAccount(4444, "Robert", 0.5, 1000)
+g1.Deposit(500)
+g1.Deposit(-20)
 
-print(len(listOfAcc))
+print(g1.getCurrentBalence())
 
+g1.Withdraw(500)
+g1.Withdraw(200000)
+g1.Withdraw(-2)
 
-
-
+print(g1.getCurrentBalence())
 #t.showMainMenu()
