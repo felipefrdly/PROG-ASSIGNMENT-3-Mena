@@ -4,6 +4,8 @@ Date: 05/11/2023
 Description:
 """
 
+listOfAcc = []
+
 class Application:
     def run(self):
         self.showMainMenu()#creates an instance of main menu when called
@@ -66,9 +68,14 @@ class Application:
                 continue
 
 class Account:
-    def __init__(self) -> None:
-        #TODO add accountNumber, accountHolderName, rateOfInterest, and currentBalance as variables
-        pass
+    #initalizes variables for account, adds itself into a list of objects
+    def __init__(self, accountNumber, accountHolderName, rateOfInterest, currentBal):
+        self._accountNumber = accountNumber
+        self._accountHolderName = accountHolderName
+        self._rateOfInterest = rateOfInterest
+        self._currentBal = currentBal
+        listOfAcc.append(self)
+
         
     def getAccountNumber(self):
         #TODO create accessor method for accountNumber
@@ -106,13 +113,25 @@ class Bank:
     _bankName = "Bank of Canada"
 
     def openAccount(self):
+        #TODO Make it so the account can be opened
         pass
 
-    def searchAccount(self):
-        #TODO Make it so that the account number is a parameter have the method find and return an account with the same account number
-        pass
+    #this methods sifts through each object in the list of objects and returns true if found, returns false if nothing is found
+    def searchAccount(self, accountNumber):
+        for obj in listOfAcc:
+            if accountNumber == obj._accountNumber:
+                return True
+        return False
+
 
 t = Application()
+b = Bank()
 
-t.run()
+#t.run()
+g1 = Account(1111, "Felipe", 0.5, 500)
+g2 = Account(2222, "Joe", 0.5, 200)
+
+
+
+
 #t.showMainMenu()
