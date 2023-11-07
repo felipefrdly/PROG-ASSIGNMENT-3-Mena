@@ -111,10 +111,11 @@ class Account:
 
 class Bank:
     _bankName = "Bank of Canada"
-
-    def openAccount(self):
-        #TODO Make it so the account can be opened
-        pass
+    
+    #this method takes each field variable needed to make a Account object as a parameter and creates a instance of the Account object
+    def openAccount(self, accountNum, accName, ROI, accBal):
+        newAcc = Account(accountNum, accName, ROI, accBal)
+        return newAcc
 
     #this methods sifts through each object in the list of objects and returns true if found, returns false if nothing is found
     def searchAccount(self, accountNumber):
@@ -130,6 +131,10 @@ b = Bank()
 #t.run()
 g1 = Account(1111, "Felipe", 0.5, 500)
 g2 = Account(2222, "Joe", 0.5, 200)
+b.openAccount(3333, "Dale", 0.5, 100)
+b.openAccount(4444, "Robert", 0.5, 1000)
+
+print(len(listOfAcc))
 
 
 
