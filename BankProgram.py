@@ -27,12 +27,10 @@ class Application:
             elif choice == "2":
                 print("Option 2 Selected")
                 break
-
-            #exits the program if 3 is chosen            
+         
             elif choice == "3":
                 print("Exiting Bank of Canada, Have a good day!")
                 exit()
-                break
 
             else:
                 print("Please try again.")
@@ -61,8 +59,7 @@ class Application:
             elif choice == "4":
                 print("Exiting Account, Please come again!")
                 exit()
-                break
-
+                
             else:
                 print("Please try again.")
                 continue
@@ -100,18 +97,22 @@ class Account:
     def setRateOfInterest(self, newROI):
         self._rateOfInterest = newROI
 
+    #The deposit method takes the the parameter amount and adds it to the current balence. If the amount is 0 or lower the transaction fails Returns true or false based on transaction success
     def Deposit(self, amount):
         if amount <= 0:
             print("Value depositied must be greater then zero, transaction failed.")
             return False
+        
         self._currentBal += amount
         print("Transaction successful.")
         return True
-
+    
+    #The deposit method takes the the parameter amount and adds it to the current balence. If the amount is 0 or lower or greater then current balence the transaction fails Returns true or false based on transaction success
     def Withdraw(self, amount):
         if amount > self._currentBal or amount <= 0 :
             print("Amount cannot be more then current balence or negative, transaction failed.")
             return False
+        
         self._currentBal -= amount
         print("Transaction successful.")
         return True
@@ -134,20 +135,39 @@ class Bank:
         print("Failed to find account.")
         return False
 
+class SavingsAccount(Account):
+    def __init__(self, accountNumber, accountHolderName, rateOfInterest, currentBal, minimumBalance):
+        super().__init__(accountNumber, accountHolderName, rateOfInterest, currentBal)
+        self._minimumBalance = minimumBalance
+    
+    def Withdraw(self, amount):
+        if self._currentBal - amount < self._minimumBalance:
+            print("The amount withdrawn will go under your minimum balance, transaction failed.")
+            return False
+        return super().Withdraw(amount)
+        
 
 t = Application()
 b = Bank()
 
 #t.run()
 g1 = Account(1111, "Felipe", 0.5, 500)
-g1.Deposit(500)
-g1.Deposit(-20)
 
-print(g1.getCurrentBalence())
+g2 = SavingsAccount(2222, "Robert", 0.5, 10000, 2000)
 
-g1.Withdraw(500)
-g1.Withdraw(200000)
-g1.Withdraw(-2)
+g2.Withdraw(4000)
 
-print(g1.getCurrentBalence())
+print(g2.getCurrentBalence())
+
+g2.Withdraw(4000)
+
+print(g2.getCurrentBalence())
+
+g2.Withdraw(1)
+
+print(g2.getCurrentBalence())
+
+
+print(len(listOfAcc))
+
 #t.showMainMenu()
