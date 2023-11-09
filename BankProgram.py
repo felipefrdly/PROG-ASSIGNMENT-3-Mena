@@ -136,16 +136,33 @@ class Bank:
         return False
 
 class SavingsAccount(Account):
+    #inherets the init method from accoount and adds a new variable called minimumBalance
     def __init__(self, accountNumber, accountHolderName, rateOfInterest, currentBal, minimumBalance):
         super().__init__(accountNumber, accountHolderName, rateOfInterest, currentBal)
         self._minimumBalance = minimumBalance
     
+    #This class inherits the withdraw method from the Bank class and overrides it. This withdraw method checks for the objects minumum balance and checks if the money withdrawn will go under that minimum balance if it does the transaction fails. Returns true or false based on transaction success 
     def Withdraw(self, amount):
         if self._currentBal - amount < self._minimumBalance:
             print("The amount withdrawn will go under your minimum balance, transaction failed.")
             return False
         return super().Withdraw(amount)
+    
+class ChequingAccount(Account):
+    #inherets the init method from accoount and adds a new variable called overdraft
+    def __init__(self, accountNumber, accountHolderName, rateOfInterest, currentBal, overDraft):
+        super().__init__(accountNumber, accountHolderName, rateOfInterest, currentBal)
+        self._overDraft = overDraft
+
+    #this method overides the Account class withdraw method. This withdraw allows the user to go under their minimum balance by an amount = to the overDraft variable. Other then that works the same as the withdraw method from Account.
+    def Withdraw(self, amount):
+        if amount > self._currentBal + self._overDraft or amount <= 0 :
+            print("Hit limit on overdraft, transaction failed")
+            return False
         
+        self._currentBal -= amount
+        print("Transaction sucecessful")
+        return True
 
 t = Application()
 b = Bank()
@@ -155,19 +172,9 @@ g1 = Account(1111, "Felipe", 0.5, 500)
 
 g2 = SavingsAccount(2222, "Robert", 0.5, 10000, 2000)
 
-g2.Withdraw(4000)
+g3 = ChequingAccount(3333, "Dale", 0.5, 5000, 5000)
 
-print(g2.getCurrentBalence())
-
-g2.Withdraw(4000)
-
-print(g2.getCurrentBalence())
-
-g2.Withdraw(1)
-
-print(g2.getCurrentBalence())
-
-
-print(len(listOfAcc))
+g3.Withdraw(10001)
+print(g3._currentBal)
 
 #t.showMainMenu()
