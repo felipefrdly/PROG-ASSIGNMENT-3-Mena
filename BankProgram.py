@@ -40,7 +40,37 @@ class Application:
             
             elif choice == "2":
                 print("Option 2 Selected")
-                break
+
+                try:
+                    accNum = int(input("Please enter an account number (Integer Number): "))
+                    accNames = input("Please enter your name (Text): ")
+                    accROI = float(input("Enter a rate of interest (Decimal Number): "))
+                    accBalance = int(input("Please enter your balance (Integer Number): "))
+        
+                    while True:
+                        accType = input("Please enter account type (<1> Chequing <2> Savings <3> General): ")
+                        if accType == "1" or accType == "2" or accType == "3":
+                            break
+
+                        print("Please select options 1, 2, or 3")
+                        continue
+
+                    if accType == "1":
+                        accOverdraft = int(input("Please enter your overdraft limit: "))
+                        BoC.openAccount(accNum, accNames, accROI, accBalance, accType, 0, accOverdraft)
+                    
+                    if accType == "2":
+                        minBal = int(input("Please enter your minimum balance: "))
+                        BoC.openAccount(accNum, accNames, accROI, accBalance, accType, minBal, 0)
+
+                    else:
+                        BoC.openAccount(accNum, accNames, accROI, accBalance, accType, 0, 0)
+
+
+                except ValueError:
+                    print("Error: Please enter correct value")
+
+                continue
             
             #exits the program
             elif choice == "3":
@@ -167,9 +197,16 @@ class Bank:
     _bankName = "Bank of Canada"
 
     
-    def openAccount(self, accountNum, accName, ROI, accBal):
         """this method takes each field variable needed to make a Account object as a parameter and creates a instance of the Account object"""
-        newAcc = Account(accountNum, accName, ROI, accBal)
+        if type == "1":
+            newAcc = ChequingAccount(accountNum, accName, ROI, accBal, overDraft)
+
+        if type == "2": 
+            newAcc = SavingsAccount(accountNum, accName, ROI, accBal, minBal)
+    
+        else:
+            newAcc = Account(accountNum, accName, ROI, accBal)
+    
         return newAcc
 
    
@@ -214,7 +251,7 @@ class ChequingAccount(Account):
     def Withdraw(self, amount):
         """#this method overides the Account class withdraw method. This withdraw allows the user to go under their minimum balance by an amount = to the overDraft variable. Other then that works the same as the withdraw method from Account."""
         if amount > self._currentBal + self._overDraft or amount <= 0 :
-            print("Hit limit on overdraft, transaction failed")
+            print("Hit limit on overdraft, transaction failed, or negative number entered")
             return False
         
         self._currentBal -= amount
