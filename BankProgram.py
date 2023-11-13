@@ -197,6 +197,7 @@ class Bank:
     _bankName = "Bank of Canada"
 
     
+    def openAccount(self, accountNum, accName, ROI, accBal, type, minBal, overDraft):
         """this method takes each field variable needed to make a Account object as a parameter and creates a instance of the Account object"""
         if type == "1":
             newAcc = ChequingAccount(accountNum, accName, ROI, accBal, overDraft)
