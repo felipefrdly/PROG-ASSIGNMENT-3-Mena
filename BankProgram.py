@@ -4,9 +4,18 @@ Date: 05/11/2023
 Description:
 """
 
+import random
+
+print()
 listOfAcc = []
 
 def Prompt(inPrompt, type):
+    """
+    the Prompt function creates input statements with built in exception handling
+    inPrompt: this paramater is the text that goes into the 
+    type: this parameter determines the type that the input statement is converted into
+    return: returns the input value
+    """
     while True:
         try:
             question = type(input(inPrompt))
@@ -21,40 +30,45 @@ def Prompt(inPrompt, type):
 class Application:
     """The application class handles user interaction and UI display. This class acts as the hub for the the other classes"""
 
-    def run(self):
-        """This method calls showMainMenu starting the program"""
-        self.showMainMenu()#creates an instance of main menu when called
-
-    def showMainMenu(self):
+    def run(self, bank):
         """
-        This method displays 3 options in the console and allows the user to pick from them
-        each choice produces a diffrent outcome        
+        This method calls showMainMenu starting the program
+        bank: takes in the name of the Bank class object allowing the application class to use Bank class features
+        """
+        self.showMainMenu(bank)#creates an instance of main menu when called
+
+    def showMainMenu(self, bank):
+        """
+        This method displays 3 options in the console and allows the user to pick from them each choice produces a diffrent outcome
+        bank: takes in the name of the Bank class object allowing the application class to use Bank class features      
         """
         #keeps users in a loop until they select from the options
         while True:
-            print("___Welcome to Bank of Canada___\n\n<1> Select Account\n<2> Open Account\n<3> Exit\n") #displays options
+            print("\n___Welcome to Bank of Canada___\n\n<1> Select Account\n<2> Open Account\n<3> Exit\n") #displays options
             choice = input("Please select one of the available options: ") 
 
             #asks users for the account number and runs it through the searchAccount method. if the method returns an object, the showAccount Menu is called
             if choice == "1":
-                print("Option 1 Selected")
+                print("\nAccount Search")
 
                 accountSelect = Prompt("Enter account number: ", int)
 
-                accountSelected = BoC.searchAccount(accountSelect)
+                accountSelected = bank.searchAccount(accountSelect)
                 if accountSelected != False:
                     self.showAccountMenu(accountSelected)
                     break
             
-            #TODO: Fix Logic Error!!!! if you input the same account number it wont let you access the new account, find a way to assign rather than let users determine their own number
+            #this block creates accounts asking users for the information required to make an account and using the results as the parameters for the openAccount Method
             elif choice == "2":
-                print("Option 2 Selected")
+                print("\nCreate Account")
 
-                accNum = Prompt("Please enter an account number (Integer Number): ", int)
+                accNum = random.randint(1,9999) #generates a random number as the accNum value
+                print(f"Your account number is {accNum}")
                 accNames = Prompt("Please enter your name (Text): ", str)
                 accROI = Prompt("Enter a rate of interest (Decimal Number): ", float)
                 accBalance = Prompt("Please enter your balance (Integer Number): ", int)
 
+                #this while loop keeps users locked in until they select a correct value
                 while True:
                     accType = input("Please enter account type (<1> Chequing <2> Savings <3> General): ")
                     if accType == "1" or accType == "2" or accType == "3":
@@ -62,17 +76,18 @@ class Application:
 
                     print("Please select options 1, 2, or 3")
                     continue
-                #TODO: Get rid of these if statements, you call this in class Bank
+
+                #these statements ask diffrent questions based on account type and call openAccount using inputted values 
                 if accType == "1":
                     accOverdraft = Prompt("Please enter your overdraft limit: ", int)
-                    BoC.openAccount(accNum, accNames, accROI, accBalance, accType, 0, accOverdraft)
+                    bank.openAccount(accNum, accNames, accROI, accBalance, accType, 0, accOverdraft)
 
                 if accType == "2":
                     minBal = Prompt("Please enter your minimum balance: ", int)
-                    BoC.openAccount(accNum, accNames, accROI, accBalance, accType, minBal, 0)
+                    bank.openAccount(accNum, accNames, accROI, accBalance, accType, minBal, 0)
 
                 else:
-                    BoC.openAccount(accNum, accNames, accROI, accBalance, accType, 0, 0)
+                    bank.openAccount(accNum, accNames, accROI, accBalance, accType, 0, 0)
                 continue
             
             #exits the program
@@ -93,7 +108,7 @@ class Application:
 
         #This loop keeps the user inside of it until they input one of the available options 
         while True:
-            print("\n___Account Menu___\n\n<1> Check Balance\n<2> Deposit\n<3> Withdraw\n<4> Exit Account\n")
+            print("\n___Account Menu___\n\n<1> Check Balance\n<2> Deposit\n<3> Withdraw\n<4> Return to Main Menu\n")
             choice = input("Please select one of the available options: ")#takes user input
 
             #When this choice is selected it calls then displays getCurrentBalance method
@@ -115,8 +130,8 @@ class Application:
 
             #exits the program
             elif choice == "4":
-                print("Exiting Account, Please come again!")
-                exit()
+                print("Exiting Account, Returning to Main Menu!")
+                self.showMainMenu()
             
             #continues loop if one of the options isnt selected
             else:
@@ -253,13 +268,3 @@ class ChequingAccount(Account):
         self._currentBal -= amount
         print("Transaction sucecessful")
         return True
-
-
-
-App = Application()
-BoC = Bank()
-
-g1 = Account(1111, "Felipe", 0.5, 5000)
-
-
-App.run()
