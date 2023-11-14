@@ -6,6 +6,18 @@ Description:
 
 listOfAcc = []
 
+def Prompt(inPrompt, type):
+    while True:
+        try:
+            question = type(input(inPrompt))
+            return question
+        
+        except ValueError:
+            print("Please enter the correct data.")
+            continue
+    
+
+
 class Application:
     """The application class handles user interaction and UI display. This class acts as the hub for the the other classes"""
 
@@ -21,55 +33,46 @@ class Application:
         #keeps users in a loop until they select from the options
         while True:
             print("___Welcome to Bank of Canada___\n\n<1> Select Account\n<2> Open Account\n<3> Exit\n") #displays options
-            choice = input("Please select one of the available options: ") #takes user input
+            choice = input("Please select one of the available options: ") 
 
             #asks users for the account number and runs it through the searchAccount method. if the method returns an object, the showAccount Menu is called
             if choice == "1":
                 print("Option 1 Selected")
 
-                try:
-                    accountSelect = int(input("Enter account number: "))
-                except ValueError:
-                    print("Please enter integer numbers.")
-                    continue
+                accountSelect = Prompt("Enter account number: ", int)
 
                 accountSelected = BoC.searchAccount(accountSelect)
                 if accountSelected != False:
                     self.showAccountMenu(accountSelected)
                     break
             
+            #TODO: Fix Logic Error!!!! if you input the same account number it wont let you access the new account, find a way to assign rather than let users determine their own number
             elif choice == "2":
                 print("Option 2 Selected")
 
-                try:
-                    accNum = int(input("Please enter an account number (Integer Number): "))
-                    accNames = input("Please enter your name (Text): ")
-                    accROI = float(input("Enter a rate of interest (Decimal Number): "))
-                    accBalance = int(input("Please enter your balance (Integer Number): "))
-        
-                    while True:
-                        accType = input("Please enter account type (<1> Chequing <2> Savings <3> General): ")
-                        if accType == "1" or accType == "2" or accType == "3":
-                            break
+                accNum = Prompt("Please enter an account number (Integer Number): ", int)
+                accNames = Prompt("Please enter your name (Text): ", str)
+                accROI = Prompt("Enter a rate of interest (Decimal Number): ", float)
+                accBalance = Prompt("Please enter your balance (Integer Number): ", int)
 
-                        print("Please select options 1, 2, or 3")
-                        continue
+                while True:
+                    accType = input("Please enter account type (<1> Chequing <2> Savings <3> General): ")
+                    if accType == "1" or accType == "2" or accType == "3":
+                        break
 
-                    if accType == "1":
-                        accOverdraft = int(input("Please enter your overdraft limit: "))
-                        BoC.openAccount(accNum, accNames, accROI, accBalance, accType, 0, accOverdraft)
-                    
-                    if accType == "2":
-                        minBal = int(input("Please enter your minimum balance: "))
-                        BoC.openAccount(accNum, accNames, accROI, accBalance, accType, minBal, 0)
+                    print("Please select options 1, 2, or 3")
+                    continue
+                #TODO: Get rid of these if statements, you call this in class Bank
+                if accType == "1":
+                    accOverdraft = Prompt("Please enter your overdraft limit: ", int)
+                    BoC.openAccount(accNum, accNames, accROI, accBalance, accType, 0, accOverdraft)
 
-                    else:
-                        BoC.openAccount(accNum, accNames, accROI, accBalance, accType, 0, 0)
+                if accType == "2":
+                    minBal = Prompt("Please enter your minimum balance: ", int)
+                    BoC.openAccount(accNum, accNames, accROI, accBalance, accType, minBal, 0)
 
-
-                except ValueError:
-                    print("Error: Please enter correct value")
-
+                else:
+                    BoC.openAccount(accNum, accNames, accROI, accBalance, accType, 0, 0)
                 continue
             
             #exits the program
@@ -100,21 +103,13 @@ class Application:
             
             #When this choice is selected the user is prompted for a number, that number is used as the parameter for the Deposit Method
             elif choice == "2":
-                try:
-                    userDeposAmount = int(input("How much money would you like to deposit: "))
-                except ValueError:
-                    print("Please enter integer numbers.")
-                    continue
+                userDeposAmount = Prompt("How much money would you like to deposit: ", int)
                 account.Deposit(userDeposAmount)
                 continue
             
             #When this choice is selected the user is prompted for a number, that number is used as the parameter for the Withdraw Method
             elif choice == "3":
-                try:
-                    userWithAmount = int(input("How much money would you like to withdraw: "))
-                except ValueError:
-                    print("Please enter integer numbers.")
-                    continue
+                userWithAmount = Prompt("How much money would you like to withdraw: ", int)
                 account.Withdraw(userWithAmount)
                 continue
 
@@ -265,6 +260,6 @@ App = Application()
 BoC = Bank()
 
 g1 = Account(1111, "Felipe", 0.5, 5000)
-g2 = Account(2222, "Komail", 0.5, 100000)
+
 
 App.run()
