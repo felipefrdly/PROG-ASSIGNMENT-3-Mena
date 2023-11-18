@@ -6,8 +6,7 @@ Description:
 
 import random
 
-print()
-listOfAcc = []
+listOfAcc = [] #empty list that holds bank accounts
 
 def Prompt(inPrompt, type):
     """
@@ -44,7 +43,7 @@ class Application:
         """
         #keeps users in a loop until they select from the options
         while True:
-            print("\n___Welcome to Bank of Canada___\n\n<1> Select Account\n<2> Open Account\n<3> Exit\n") #displays options
+            print(f"\n___Welcome to {bank._bankName}___\n\n<1> Select Account\n<2> Open Account\n<3> Exit\n") #displays options
             choice = input("Please select one of the available options: ") 
 
             #asks users for the account number and runs it through the searchAccount method. if the method returns an object, the showAccount Menu is called
@@ -53,7 +52,7 @@ class Application:
 
                 accountSelect = Prompt("Enter account number: ", int)
 
-                accountSelected = bank.searchAccount(accountSelect)
+                accountSelected = bank.SearchAccount(accountSelect)
                 if accountSelected != False:
                     self.showAccountMenu(accountSelected)
                     break
@@ -80,14 +79,14 @@ class Application:
                 #these statements ask diffrent questions based on account type and call openAccount using inputted values 
                 if accType == "1":
                     accOverdraft = Prompt("Please enter your overdraft limit: ", int)
-                    bank.openAccount(accNum, accNames, accROI, accBalance, accType, 0, accOverdraft)
+                    bank.OpenAccount(accNum, accNames, accROI, accBalance, accType, 0, accOverdraft)
 
                 if accType == "2":
                     minBal = Prompt("Please enter your minimum balance: ", int)
-                    bank.openAccount(accNum, accNames, accROI, accBalance, accType, minBal, 0)
+                    bank.OpenAccount(accNum, accNames, accROI, accBalance, accType, minBal, 0)
 
                 else:
-                    bank.openAccount(accNum, accNames, accROI, accBalance, accType, 0, 0)
+                    bank.OpenAccount(accNum, accNames, accROI, accBalance, accType, 0, 0)
                 continue
             
             #exits the program
@@ -102,8 +101,8 @@ class Application:
 
     def showAccountMenu(self, account):
         """
-        This method displays 4 options and allows the user to pick from them
-        each choice produces a diffrent outcome
+        This method displays 4 options and allows the user to pick from them each choice produces a diffrent outcome
+        account: takes in the name of an Account object allowing the user to change and access values from said object
         """
 
         #This loop keeps the user inside of it until they input one of the available options 
@@ -189,7 +188,7 @@ class Account:
     
     def Withdraw(self, amount):
         """
-        #The deposit method takes the the parameter amount and adds it to the current balence. If the amount is 0 or lower or greater then current balence the transaction fails Returns true or false based on transaction success
+        #The deposit method takes the the parameter amount and subtracts from the current balence. If the amount is 0 or lower or greater then current balence the transaction fails Returns true or false based on transaction success
         """
         if amount > self._currentBal or amount <= 0 :
             print("Amount cannot be more then current balence or negative, transaction failed.")
@@ -206,8 +205,7 @@ class Bank:
     """
     _bankName = "Bank of Canada"
 
-    
-    def openAccount(self, accountNum, accName, ROI, accBal, type, minBal, overDraft):
+    def OpenAccount(self, accountNum, accName, ROI, accBal, type, minBal, overDraft):
         """this method takes each field variable needed to make a Account object as a parameter and creates a instance of the Account object"""
         if type == "1":
             newAcc = ChequingAccount(accountNum, accName, ROI, accBal, overDraft)
@@ -221,7 +219,7 @@ class Bank:
         return newAcc
 
    
-    def searchAccount(self, accountNumber):
+    def SearchAccount(self, accountNumber):
         """
         this methods takes accountNumber as a parameter, the method sifts a list of all bank objects. If accountNumber 
         matches the account number of an object the returns, returns false if nothing is found
@@ -231,7 +229,7 @@ class Bank:
                 print("Account successfully found.")
                 return obj
         print("Failed to find account.")
-        return False
+        
 
 class SavingsAccount(Account):
     """This class inherets the Account method and changes the init and Withdraw method"""
