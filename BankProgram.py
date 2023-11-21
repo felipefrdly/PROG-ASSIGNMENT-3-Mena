@@ -34,7 +34,10 @@ class Application:
         This method calls showMainMenu starting the program
         bank: takes in the name of the Bank class object allowing the application class to use Bank class features
         """
-        self.showMainMenu(bank)#creates an instance of main menu when called
+        global bankSelected 
+        bankSelected = bank #allows this variable to be used across all methods
+
+        self.showMainMenu(bankSelected)#creates an instance of main menu when called
 
     def showMainMenu(self, bank):
         """
@@ -53,6 +56,7 @@ class Application:
                 accountSelect = Prompt("Enter account number: ", int)
 
                 accountSelected = bank.SearchAccount(accountSelect)
+                print(accountSelect)
                 if accountSelected != False:
                     self.showAccountMenu(accountSelected)
                     break
@@ -130,7 +134,7 @@ class Application:
             #exits the program
             elif choice == "4":
                 print("Exiting Account, Returning to Main Menu!")
-                self.showMainMenu()
+                self.showMainMenu(bankSelected)
             
             #continues loop if one of the options isnt selected
             else:
@@ -229,6 +233,7 @@ class Bank:
                 print("Account successfully found.")
                 return obj
         print("Failed to find account.")
+        return False
         
 
 class SavingsAccount(Account):
